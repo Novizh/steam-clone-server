@@ -1,5 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
-const { hash } = require('../middlewares/bcrypt');
+const { hash } = require('../helpers/bcrypt');
 
 async function seedDB() {
     // Connection URL
