@@ -8,7 +8,7 @@ async function connect() {
     try {
         const client = new MongoClient(uri, {
             useNewUrlParser: true,
-            useUnifiedTopology: true,
+            useUnifiedTopology: true
         });
         await client.connect();
         const db = await client.db('steam-clone-db');
