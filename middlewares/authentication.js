@@ -1,5 +1,5 @@
 const { verify } = require('../helpers/jwt');
-const { User } = require('../models');
+const User = require('../models/user');
 
 async function authentication(request, response, next) {
     try {
@@ -7,8 +7,8 @@ async function authentication(request, response, next) {
             next({ code: 401, message: 'Please login first!' })
         } else {
             let decoded = verify(request.headers.access_token);
-            let user = await User.findByPk(decoded.id);
-            if(user) {
+            let user = await User.findById(decoded.id);
+            if (user) {
                 request.user = {
                     id: decoded.id,
                     username: decoded.username
