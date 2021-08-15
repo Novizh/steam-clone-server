@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost:27017/steam-clone-db', {
 });
 
 const GameSchema = new mongoose.Schema({
-    id: { type: String, required: [true, 'Please enter the game id!'] },
+    game_id: { type: String, required: [true, 'Please enter the game id!'] },
     imageUrl: { type: String },
     platforms: [String], 
     metascore: { type: Number },
