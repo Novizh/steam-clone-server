@@ -9,7 +9,7 @@ class GameController {
     static async wishlist(request, response, next) {
         try {
             let gameDetails = {
-                id: request.body.id,
+                game_id: request.body.game_id,
                 imageUrl: request.body.imageUrl,
                 platforms: request.body.platforms.split(', '),
                 metascore: request.body.metascore,
@@ -50,7 +50,7 @@ class GameController {
             let game = await Game.findById(request.params.id);
             if (game) {
                 let game = await Game.deleteOne({_id: request.params.id});
-                response.status(200).json({message: `Gaeme removed from wishlist successfully!`, game});
+                response.status(200).json({message: `Game removed from wishlist successfully!`, game});
             } else {
                 next({code:404, message: `Game not found!`});
             }
