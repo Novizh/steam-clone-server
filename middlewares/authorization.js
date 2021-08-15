@@ -1,26 +1,20 @@
-const { verify } = require('../helpers/jwt');
-const User = require('../models/user');
+const Game = require('../models/game');
 
-async function authentication(request, response, next) {
+async function authorization(request, response, next) {
     try {
-        if (!request.headers.access_token) {
-            next({ code: 401, message: 'Please login first!' });
-        } else {
-            let decoded = verify(request.headers.access_token);
-            let user = await User.findById(decoded.id);
-            if (user) {
-                request.user = {
-                    id: decoded.id,
-                    username: decoded.username
-                }
+        let game = await Game.findById(request.params.id);
+        if (game) {
+            if (game.user_id == request.user.id) {
                 next();
             } else {
-                next({ code: 401, message: 'You are not authorized!'});
+                next({ code: 401, message: 'You are not authorized!'})
             }
+        } else {
+            next({ code: 404, message: 'Data not found!'})
         }
     } catch (error) {
-        next({ code: 500, message: error });
+        next({ code: 500, message: error})
     }
 }
 
-module.exports = authentication;
+module.exports = authorization;
