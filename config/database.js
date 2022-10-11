@@ -1,21 +1,20 @@
 const { MongoClient } = require('mongodb');
-
-// MongoDB default uri port
-const uri = `mongodb://localhost:27017`;
+const url = process.env.DATABASE_URL;
 let database = null;
 
 async function connect() {
     try {
-        const client = new MongoClient(uri, {
+        const client = new MongoClient(url, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        client.connect();
+        await client.connect();
         const db = await client.db('steam-clone-db');
         database = db;
         return db;
     } catch (error) {
         console.log(error);
+        return error;
     }
 }
 
