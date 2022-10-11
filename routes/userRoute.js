@@ -8,9 +8,10 @@ route.post(`/register`, UserController.register);
 route.post(`/login`, UserController.login);
 
 route.use(authentication);
-route.get(`/`, UserController.getAll);
-route.get(`/:id`, UserController.getById);
-route.put(`/:id`, UserController.update);
-route.delete(`/:id`, UserController.delete);
+route.get(`/`, UserController.getAllUsers);
+route.get(`/:id`, UserController.getUserById);
+route.use(authorization);
+route.put(`/:id`, UserController.updateUser);
+route.delete(`/:id`, UserController.deleteUser);
 
 module.exports = route;

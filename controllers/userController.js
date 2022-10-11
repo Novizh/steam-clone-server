@@ -54,7 +54,7 @@ class UserController {
         }
     }
 
-    static async getAll(request, response, next) {
+    static async getAllUsers(request, response, next) {
         try {
             if (getDatabase()) {
                 let users = await User.find({});
@@ -67,7 +67,7 @@ class UserController {
         }
     }
 
-    static async getById(request, response, next) {
+    static async getUserById(request, response, next) {
         try {
             if (getDatabase()) {
                 let user = await User.findById(request.params.id);
@@ -84,7 +84,7 @@ class UserController {
         }
     }
 
-    static async update(request, response, next) {
+    static async updateUser(request, response, next) {
         try {
             if (getDatabase()) {
                 let user = await User.findById(request.params.id);
@@ -107,7 +107,7 @@ class UserController {
         }
     }
 
-    static async delete(request, response, next) {
+    static async deleteUser(request, response, next) {
         try {
             if (getDatabase()) {
                 let user = await User.findById(request.params.id);

@@ -7,13 +7,13 @@ async function authorization(request, response, next) {
             if (game.user_id == request.user.id) {
                 next();
             } else {
-                next({ code: 401, message: 'You are not authorized!'})
+                throw { code: 401, message: 'You are not authorized!' };
             }
         } else {
-            next({ code: 404, message: 'Data not found!'})
+            throw { code: 404, message: 'Data not found!' };
         }
     } catch (error) {
-        next({ code: 500, message: error})
+        next(error);
     }
 }
 

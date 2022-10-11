@@ -4,7 +4,7 @@ const User = require('../models/user');
 async function authentication(request, response, next) {
     try {
         if (!request.headers.access_token) {
-            next({ code: 401, message: 'Please login first!' })
+            throw { code: 401, message: 'Please login first!' }
         } else {
             let decoded = verify(request.headers.access_token);
             let user = await User.findById(decoded.id);
@@ -15,11 +15,11 @@ async function authentication(request, response, next) {
                 }
                 next();
             } else {
-                next({ code: 403, message: 'Access forbidden!'});
+                throw { code: 403, message: 'Access forbidden!' };
             }
         }
     } catch (error) {
-        next({ code: 500, message: error });
+        next(error);
     }
 }
 
