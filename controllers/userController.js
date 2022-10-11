@@ -38,8 +38,13 @@ class UserController {
                 let user = await User.findOne({ "username": request.body.username });
                 if (user) {
                     if (compare(request.body.password, user.password)) {
-                        let access_token = sign({ id: user._id, username: user.username });
-                        response.status(200).json({ message: `Login successful!`, access_token });
+                        if (user.email === 'administrator@gamerfella.com') {
+                            let access_token = sign({ id: user._id, username: user.username, role: 'administrator' });
+                            response.status(200).json({ message: `Login successful!`, access_token });
+                        } else {
+                            let access_token = sign({ id: user._id, username: user.username });
+                            response.status(200).json({ message: `Login successful!`, access_token });
+                        }
                     } else {
                         throw { code: 400, message: 'Email or password incorrect!' };
                     }
@@ -89,12 +94,12 @@ class UserController {
             if (getDatabase()) {
                 let user = await User.findById(request.params.id);
                 if (user) {
-                    let newUser = {
+                    let updatedData = {
                         username: request.body.username,
                         email: request.body.email,
-                        password: request.body.password
+                        password: hash(request.body.password)
                     }
-                    let user = await User.updateOne({ _id: request.params.id }, newUser);
+                    let user = await User.updateOne({ _id: request.params.id }, updatedData);
                     response.status(200).json({ message: `User updated successfully!`, user });
                 } else {
                     throw { code: 404, message: `User not found!` };

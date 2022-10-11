@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/steam-clone-db', {
+mongoose.connect(`${process.env.DATABASE_URL}/${process.env.DATABASE_NAME}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });

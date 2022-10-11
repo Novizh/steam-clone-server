@@ -9,7 +9,7 @@ async function connect() {
             useUnifiedTopology: true
         });
         await client.connect();
-        const db = await client.db('steam-clone-db');
+        const db = await client.db(process.env.DATABASE_NAME);
         database = db;
         return db;
     } catch (error) {

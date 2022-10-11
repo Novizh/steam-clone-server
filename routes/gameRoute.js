@@ -2,7 +2,7 @@ const express = require('express');
 const route = express.Router();
 const GameController = require('../controllers/gameController');
 const authentication = require('../middlewares/authentication');
-const authorization = require('../middlewares/authorization');
+const authorization = require('../middlewares/gameAuthorization');
 
 route.use(authentication);
 route.post(`/`, GameController.wishlist);
