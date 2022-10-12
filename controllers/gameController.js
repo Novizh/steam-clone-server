@@ -2,6 +2,17 @@ const { getDatabase } = require('../config/database');
 const Game = require('../models/game');
 
 class GameController {
+    static async getAllGames(request, response, next) {
+        try {
+            if (getDatabase()) {
+
+            } else {
+
+            }
+        } catch (error) {
+            
+        }
+    }
     static async wishlist(request, response, next) {
         try {
             if (getDatabase()) {
@@ -16,7 +27,7 @@ class GameController {
                 let whishlist = await Game.create(gameDetails);
                 response.status(201).json({ message: `Game added to wishlist successfully!`, whishlist });
             } else {
-                console.error(`Can't connect to Cart database!`);
+                console.error(`Can't connect to the database!`);
             }
         } catch (error) {
             next(error);
@@ -29,7 +40,7 @@ class GameController {
                 let games = await Game.find({ user_id: request.user.id });
                 response.status(200).json({ games });
             } else {
-                console.error(`Can't connect to Cart database!`);
+                console.error(`Can't connect to the database!`);
             }
         } catch (error) {
             next(error);
@@ -46,7 +57,7 @@ class GameController {
                     throw { code: 404, message: `Game not found!` };
                 }
             } else {
-                console.error(`Can't connect to Cart database!`);
+                console.error(`Can't connect to the database!`);
             }
         } catch (error) {
             next(error);
@@ -64,7 +75,7 @@ class GameController {
                     throw { code: 404, message: `Game not found!` };
                 }
             } else {
-                console.error(`Can't connect to Cart database!`);
+                console.error(`Can't connect to the database!`);
             }
         } catch (error) {
             next(error);

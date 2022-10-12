@@ -11,7 +11,8 @@ async function authentication(request, response, next) {
             if (user) {
                 request.user = {
                     id: decoded.id,
-                    username: decoded.username
+                    username: decoded.username,
+                    role: decoded.role
                 }
                 next();
             } else {
