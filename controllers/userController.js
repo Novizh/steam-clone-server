@@ -18,7 +18,8 @@ class UserController {
                         let newUser = {
                             username: request.body.username,
                             email: request.body.email,
-                            password: hash(request.body.password)
+                            password: hash(request.body.password),
+                            role: 0, // User role
                         }
                         let user = await User.create(newUser);
                         response.status(201).json({ message: `User created successfully!`, user });
@@ -38,8 +39,8 @@ class UserController {
                 let user = await User.findOne({ "username": request.body.username });
                 if (user) {
                     if (compare(request.body.password, user.password)) {
-                        if (user.email === 'administrator@gamerfella.com') {
-                            let access_token = sign({ id: user._id, username: user.username, role: 'administrator' });
+                        if (user.username === process.env.ADMIN_USERNAME && user.email === process.env.ADMIN_EMAIL) {
+                            let access_token = sign({ id: user._id, username: user.username, role: user.role });
                             response.status(200).json({ message: `Login successful!`, access_token });
                         } else {
                             let access_token = sign({ id: user._id, username: user.username });
@@ -52,7 +53,7 @@ class UserController {
                     throw { code: 400, message: 'Email or password incorrect!' };
                 }
             } else {
-                console.error(`Can't connect to Cart database!`);
+                throw { code: 503, message: `Can't connect to the database!` };
             }
         } catch (error) {
             next(error);
@@ -65,7 +66,7 @@ class UserController {
                 let users = await User.find({});
                 response.status(200).json({ users });
             } else {
-                console.error(`Can't connect to Cart database!`);
+                throw { code: 503, message: `Can't connect to the database!` };
             }
         } catch (error) {
             next(error);
@@ -82,7 +83,7 @@ class UserController {
                     throw { code: 404, message: `User not found!` };
                 }
             } else {
-                console.error(`Can't connect to Cart database!`);
+                throw { code: 503, message: `Can't connect to the database!` };
             }
         } catch (error) {
             next(error);
@@ -97,7 +98,8 @@ class UserController {
                     let updatedData = {
                         username: request.body.username,
                         email: request.body.email,
-                        password: hash(request.body.password)
+                        password: hash(request.body.password),
+                        role: 0
                     }
                     let user = await User.updateOne({ _id: request.params.id }, updatedData);
                     response.status(200).json({ message: `User updated successfully!`, user });
@@ -105,7 +107,7 @@ class UserController {
                     throw { code: 404, message: `User not found!` };
                 }
             } else {
-                console.error(`Can't connect to Cart database!`);
+                throw { code: 503, message: `Can't connect to the database!` };
             }
         } catch (error) {
             next(error);
@@ -123,7 +125,7 @@ class UserController {
                     throw { code: 404, message: `User not found!` };
                 }
             } else {
-                console.error(`Can't connect to Cart database!`);
+                throw { code: 503, message: `Can't connect to the database!` };
             }
         } catch (error) {
             next(error);
